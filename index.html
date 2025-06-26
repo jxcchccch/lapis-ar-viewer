@@ -1,34 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>LASPIS AR Viewer</title>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的AR模型</title>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
     <style>
-      body {
-        margin: 0;
-        background: #000;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
-      model-viewer {
-        width: 100%;
-        height: 100%;
-      }
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* 防止页面滚动 */
+            font-family: sans-serif;
+            background-color: #f0f0f0;
+        }
+        model-viewer {
+            width: 100vw; /* 视口宽度 */
+            height: 100vh; /* 视口高度 */
+            background-color: #ffffff; /* 确保有一个背景色 */
+        }
+        .info-box {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            max-width: 300px;
+        }
+        h1 {
+            font-size: 1.5em;
+            margin-top: 0;
+            color: #333;
+        }
+        p {
+            font-size: 0.9em;
+            line-height: 1.5;
+            color: #555;
+        }
+        @media (max-width: 600px) {
+            .info-box {
+                top: 10px;
+                left: 10px;
+                padding: 10px;
+                max-width: calc(100% - 40px); /* 适应小屏幕 */
+            }
+            h1 {
+                font-size: 1.2em;
+            }
+            p {
+                font-size: 0.8em;
+            }
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <model-viewer
-      src="TEST.glb"
-      ar
-      ar-modes="scene-viewer webxr quick-look"
-      auto-rotate
-      camera-controls
-      environment-image="neutral"
-      shadow-intensity="1">
+        src="./your-model.glb"  ar
+        ar-modes="webxr scene-viewer quick-look"
+        camera-controls
+        touch-action="pan-y"
+        alt="一个AR模型展示"
+        exposure="1"
+        shadow-intensity="1"
+        environment-image="neutral"
+        loading="eager"
+        disable-pan
+    >
     </model-viewer>
-  </body>
-</html>
 
+    <div class="info-box">
+        <h1>欢迎查看我的AR模型！</h1>
+        <p>在支持AR的设备上，点击屏幕右下角的AR按钮，即可在真实环境中查看此3D模型。</p>
+        <p>请确保您的设备支持Google ARCore (Android) 或 Apple ARKit (iOS)，并且浏览器已授予相机权限。</p>
+    </div>
+</body>
+</html>
