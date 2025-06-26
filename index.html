@@ -2,56 +2,45 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LASPIS AR 模型</title>
-  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+  <title>LASPIS AR Viewer</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      overflow: hidden;
+      background: #111;
+      color: #fff;
       font-family: sans-serif;
-      background-color: #f0f0f0;
     }
+
     model-viewer {
       width: 100vw;
       height: 100vh;
-      background-color: transparent;
     }
-    .info-box {
+
+    model-viewer::part(ar-button) {
+      background-color: white;
+      color: black;
+      font-size: 24px;
+      font-weight: bold;
+      padding: 18px 28px;
+      border-radius: 18px;
+      bottom: 32px;
+      right: 32px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+      z-index: 999;
+    }
+
+    #warning {
       position: absolute;
-      top: 20px;
-      left: 20px;
-      background: rgba(255, 255, 255, 0.85);
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      z-index: 10;
-      max-width: 300px;
-    }
-    h1 {
-      font-size: 1.5em;
-      margin-top: 0;
-      color: #333;
-    }
-    p {
-      font-size: 0.9em;
-      line-height: 1.5;
-      color: #555;
-    }
-    @media (max-width: 600px) {
-      .info-box {
-        top: 10px;
-        left: 10px;
-        padding: 10px;
-        max-width: calc(100% - 40px);
-      }
-      h1 {
-        font-size: 1.2em;
-      }
-      p {
-        font-size: 0.8em;
-      }
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.7);
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      max-width: 90vw;
+      text-align: center;
     }
   </style>
 </head>
@@ -61,19 +50,43 @@
     ios-src="LASPIS.usdz"
     ar
     ar-modes="scene-viewer webxr quick-look"
+    auto-rotate
     camera-controls
-    touch-action="pan-y"
-    alt="LASPIS AR模型"
-    exposure="1"
-    shadow-intensity="1"
+    scale="0.1 0.1 0.1"
     environment-image="https://modelviewer.dev/shared-assets/environments/spruit_sunrise_1k_HDR.hdr"
-    loading="eager">
+    shadow-intensity="1"
+    exposure="1.2"
+    alt="3D model of LASPIS">
   </model-viewer>
 
-  <div class="info-box">
-    <h1>欢迎查看 LASPIS AR 模型</h1>
-    <p>点击右下角 AR 按钮，即可将 3D 模型投放到现实世界中。</p>
-    <p>请确保使用 Safari（iOS）或 Chrome（Android），并允许浏览器访问摄像头。</p>
-  </div>
+  <div id="warning"></div>
+
+  <script>
+    function getOS() {
+      const ua = navigator.userAgent;
+      if (/android/i.test(ua)) return "Android";
+      if (/iPad|iPhone|iPod/.test(ua)) return "iOS";
+      return "Other";
+    }
+
+    function getBrowser() {
+      const ua = navigator.userAgent;
+      if (ua.includes("Chrome") && !ua.includes("Edg") && !ua.includes("OPR")) return "Chrome";
+      if (ua.includes("Safari") && !ua.includes("Chrome")) return "Safari";
+      return "Other";
+    }
+
+    const os = getOS();
+    const browser = getBrowser();
+    const warning = document.getElementById("warning");
+
+    if (os === "Android" && browser !== "Chrome") {
+      warning.innerText = "为启用 AR 模式，请用 Android 原生 Chrome 浏览器打开本页面。";
+    } else if (os === "iOS" && browser !== "Safari") {
+      warning.innerText = "为启用 AR 模式，请用 Safari 浏览器打开本页面（不可使用 Chrome）。";
+    } else if (os === "Other") {
+      warning.innerText = "AR 模式仅在 iOS Safari 或 Android Chrome 中支持，当前设备可能无法进入。";
+    }
+  </script>
 </body>
 </html>
