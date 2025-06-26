@@ -2,21 +2,20 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <title>LASPIS AR Viewer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LASPIS AR 模型</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <style>
     body {
       margin: 0;
       background: #111;
-      color: #fff;
       font-family: sans-serif;
+      color: #fff;
     }
-
     model-viewer {
       width: 100vw;
       height: 100vh;
     }
-
     model-viewer::part(ar-button) {
       background-color: white;
       color: black;
@@ -29,7 +28,6 @@
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
       z-index: 999;
     }
-
     #warning {
       position: absolute;
       bottom: 20px;
@@ -56,7 +54,7 @@
     environment-image="https://modelviewer.dev/shared-assets/environments/spruit_sunrise_1k_HDR.hdr"
     shadow-intensity="1"
     exposure="1.2"
-    alt="3D model of LASPIS">
+    alt="LASPIS 3D 模型">
   </model-viewer>
 
   <div id="warning"></div>
